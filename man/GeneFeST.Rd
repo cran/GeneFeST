@@ -10,13 +10,13 @@
 \description{
 
 The method is based on the work from Beaumont and Balding (2004) where they introduce a FST-based hierarchical Bayesian model to detect loci that are subject to selection. In this Bayesian approach they use a logistic regression model to distinguish between locus-specific effects like selection and population-specific effects which are shared by all loci (e.g effects caused by migration rates) (Riebler, 2008). 
-Foll and Gaggiotti (2008) extended this work using a reversible jump MCMC (Green, 1995) which enables testing the hypothesis that a locus is subject to selection; a very similar approach was developed in parallel by Riebler & Stefan (2008). The method is implemented in a software named BayeScan (http://cmpg.unibe.ch/software/BayeScan/). The new method introduced here is a slightly modification of BayeScan (see details). 
+Foll and Gaggiotti (2008) extended this work using a reversible jump MCMC (Green, 1995) which enables testing the hypothesis that a locus is subject to selection; a very similar approach was developed in parallel by Riebler & Stefan (2008). The method is implemented in a software named BayeScan (http://cmpg.unibe.ch/software/BayeScan/). The new method introduced here is a modification of BayeScan (see details). 
 }
 
 \usage{
 
 GeneFeST(input,GROUP=FALSE,nb.pilot=20,pilot.runtime=500,main.runtime=5000,
-type=1,only.pilots=FALSE,prior.odds=0.2,h.step.width=1,mcmc.diag=FALSE)
+type=1,only.pilots=FALSE,h.average.P=0.2,h.step.width=1,mcmc.diag=FALSE,h=TRUE)
 
 }
 
@@ -29,9 +29,10 @@ type=1,only.pilots=FALSE,prior.odds=0.2,h.step.width=1,mcmc.diag=FALSE)
   \item{main.runtime}{length of main runs} 
   \item{type}{1: one alpha one group, 2: most extrem alpha to label group}
   \item{only.pilots}{only pilot runs are performed}
-  \item{prior.odds}{the expected probability that a gen is under selection}
-  \item{h.step.width}{step width of the heuristic}
+  \item{h.average.P}{the expected probability that a gen is under selection}
+  \item{h.step.width}{step width of the heuristic, see details !}
   \item{mcmc.diag}{the input for the R-package coda is returned after the pilot runs, Note: 'coda' is required !}
+  \item{h}{if \code{h=FALSE} the \code{h.average.P} should be set like the \code{prior.odds} variable suggested by Foll & Gaggiotti}
 
 } 
 
@@ -60,7 +61,7 @@ Following Slots will be filled \cr
 
 Type of measurenments: \cr \cr
 type 1: \cr
-Our type 1 method considers all SNP separately but is restricted to generate exactly one alpha 
+Our type 1 method considers all SNPs separately but is restricted to generate exactly one alpha 
 for each gene (or group of SNPs). This approach assumes that all SNPs observed in one gene share the same genetic effect.
 The type 1 method is default ! \cr \cr
 type 2: \cr
@@ -74,13 +75,14 @@ Heuristic: \cr
 We recognized that the type 1 method has good power to distinguish between balancing and positive selection
 but produces rapid increasing posterior P-values. 
 Instead of correcting this with normalization, e.g with the use of empirical functions, we introduce 
-here a heuristic which controls the number of  included alphas during the jump model. A "prior odds"  
-variable takes into account the expected probability that a locus is under selection. In Foll & Gaggiotti's framework this value is constant. 
-We keep that value variable in order to adjust the average number of alphas included in the model during the reversible jump until a  
-user user-defined ratio (expected fraction of loci under selection=alpha included) is reached. The underlying algorithm logarithmically 
-decreases the probability that a gene is subject to selection while it stays 100 iterations at each step to ensure good differentiation 
+here a heuristic which controls the number of  included alphas during the jump model. A "h.average.P"  
+variable takes the expected probability that a locus is under selection into account. 
+We keep that value variable in order to adjust the average number of alphas included in the model during the reversible jump until an 
+user-defined ratio (expected fraction of loci under selection=alpha included) is reached. The underlying algorithm logarithmically 
+decreases the probability that a gene is subject to selection while it stays 100 iterations at each state to ensure good differentiation 
 at the full P-value scale [0,1]. The step width can be tuned by the user. 
-The ratio (n.genes.included/n) is printed during the jump model. 
+The ratio (n.genes.included/n.genes) is printed during the jump model. If \code{h=FALSE} the parameter \code{h.average.P} is treated like 
+the \code{prior.odds} variable in BayeScan and should be set accordingly.
 }
 
 \references{ 

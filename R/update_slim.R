@@ -405,35 +405,18 @@ excluded       		<-  !included
 A_included <- 0
 A_excluded <- 0
 
+# include in the selection model 
 if(any(included)){
-A_included     		<- -log(BBB2$tempting) 
-
-# -log(BBB2$tempting) 
-# - log(5) 
-# + log(my_dlaplace(0,BBB2$mean_alpha[included],sqrt(BBB2$var_alpha[included]) ))
-# - log(my_dlaplace(BBB2$mean_alpha[included],0,1))
-# -log(BBB2$tempting) 
-# - log(5) 
-# + log(my_dlaplace(0,BBB2$mean_alpha[included],sqrt(BBB2$var_alpha[included]) ))  
-# - log(BBB2$tempting)  
-# - log(dnorm(0,BBB2$mean_alpha[included],sqrt(BBB2$var_alpha[included]))) 
-# + log(dnorm(BBB2$mean_alpha[included],0,1))		   
-
+A_included     		<- - log(BBB2$tempting) 
+			   - log(dnorm(BBB2$d_alpha[included],BBB2$mean_alpha[included],sqrt(BBB2$var_alpha[included]))) 
+			   + log(dnorm(BBB2$d_alpha[included],0,1))
 }
 
+# exclude from the selection model 
 if(any(excluded)){
-A_excluded     		<- log(BBB2$tempting)
-
-# log(BBB2$tempting)
-# log(5) 
-# - log(my_dlaplace(0,BBB2$mean_alpha[excluded],sqrt(BBB2$var_alpha[excluded]) ))
-# + log(my_dlaplace(BBB2$mean_alpha[excluded],0,1))  
-# log(BBB2$tempting) 
-# log(5) 
-# -log(my_dlaplace(0,BBB2$mean_alpha[excluded],sqrt(BBB2$var_alpha[excluded]) ))
-# log(BBB2$tempting)   
-# + log(dnorm(0,BBB2$mean_alpha[excluded],sqrt(BBB2$var_alpha[excluded])))	           
-# - log(dnorm(BBB2$mean_alpha[excluded],0,1))
+A_excluded     		<-   log(BBB2$tempting) 
+			   + log(dnorm(BBB2$d_alpha[excluded],BBB2$mean_alpha[excluded],sqrt(BBB2$var_alpha[excluded]))) 
+			   - log(dnorm(BBB2$d_alpha[excluded],0,1))
 }
 
 A[included] 	           <-  A[included] + A_included 

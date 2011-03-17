@@ -1,7 +1,7 @@
 Package: GeneFeST
 Type: Package
 Title: Bayesian calculation of gene-specific FST from genomic SNP data
-Version: 1.0.0
+Version: 1.0.1
 Date: 2011-03-17
 Author: Bastian Pfeifer
 Maintainer: Bastian Pfeifer <Bastian.Pfeifer@uni-duesseldorf.de>
@@ -11,7 +11,7 @@ Suggests: PopGenome, coda
 Description: GeneFeST is a genome scan method to detect outlier loci (genes) which are under balancing or directional selection.
 License: GPL-2
 LazyLoad: yes
-Packaged: 2014-03-24 16:42:30 UTC; user
+Packaged: 2014-05-01 20:41:23 UTC; user
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-03-24 18:23:08
+Date/Publication: 2014-05-02 07:13:19

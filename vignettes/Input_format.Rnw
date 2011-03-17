@@ -49,7 +49,7 @@ A second input file (groups.txt) is required to set the grouping of the SNPs.
 The text file contains three tab-seperated columns, where the first column defines the name of the gene, the second column 
 the start positions (SNP position)
 and the third column the corresponding end position (SNP position).
-The total number rows is limited by the total number of genes (in our example [loci]=4). 
+The total number of rows is limited by the total number of genes (in our example [loci]=4). 
 \\
 \\   
 The function call would than be:

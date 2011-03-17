@@ -1,9 +1,10 @@
 BBB2 <- new.env()
 
-GeneFeST <- function(input,GROUP=FALSE,nb.pilot=20,pilot.runtime=500,main.runtime=5000,type=1,only.pilots=FALSE,prior.odds=0.2,h.step.width=1,mcmc.diag=FALSE){
+GeneFeST <- function(input,GROUP=FALSE,nb.pilot=20,pilot.runtime=500,main.runtime=5000,type=1,only.pilots=FALSE,h.average.P=0.2,h.step.width=1,mcmc.diag=FALSE,h=TRUE){
+
 
 discard <- 10 
-BBB2$prior.odds   <- prior.odds
+BBB2$prior.odds   <- h.average.P  #prior.odds
 BBB2$h.step.width <- h.step.width
        
 name         <- input 
@@ -374,6 +375,7 @@ cat("\n")
  
 ### Approx #################################
 BBB2$acc.ratio   <- BBB2$acc.ratio + sum(tapply(BBB2$alpha_included,BBB2$GROUP,unique))/BBB2$N.REGIONS
+if(h){
 if(i%%100 == 0){
 BBB2$acc.ratio <- BBB2$acc.ratio/100
 print("acc.ratio")
@@ -381,6 +383,9 @@ print(BBB2$acc.ratio)
 driveP()
 print("tempering")
 print(BBB2$tempting)
+}
+}else{
+BBB2$tempting  <- h.average.P
 }
 #### ######################################
 
