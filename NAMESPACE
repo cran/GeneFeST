@@ -1,0 +1,7 @@
+useDynLib(GeneFeST)
+
+import(methods)
+import(BASIX)
+
+export(GeneFeST)
+
